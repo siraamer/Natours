@@ -18,7 +18,7 @@ app.set('view engine', 'pug');
 app.set('views', './views');
 
 //Global Middlewares
-// app.use(helmet());
+app.use(helmet());
 app.use('/api', limiter);
 app.use(mongoSanitize());
 app.use(express.json({ limit: '10kb' }));
