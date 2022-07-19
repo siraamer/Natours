@@ -50,7 +50,7 @@ if (userDataForm)
 
     updateSettings(form, 'data');
   });
-
+//!
 if (userPasswordForm)
   userPasswordForm.addEventListener('submit', async (e) => {
     e.preventDefault();

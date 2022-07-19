@@ -28,7 +28,7 @@ export const logout = async () => {
   try {
     const res = await axios({
       method: 'GET',
-      url: '/api/v1/auth/logout',
+      url: 'http://localhost:7000/api/v1/auth/logout',
     });
     if ((res.data.status = 'success')) location.assign('/login');
   } catch (err) {

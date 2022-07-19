@@ -578,6 +578,7 @@ declare var HMR_SECURE: boolean;
             form.append('photo', document.getElementById('photo').files[0]);
             _updateSettings.updateSettings(form, 'data');
           });
+        //!
         if (userPasswordForm)
           userPasswordForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -11069,7 +11070,7 @@ declare var HMR_SECURE: boolean;
           try {
             const res = await _axiosDefault.default({
               method: 'GET',
-              url: '/api/v1/auth/logout',
+              url: 'http://localhost:7000/api/v1/auth/logout',
             });
             res.data.status = 'success';
             location.assign('/login');
@@ -15237,8 +15238,8 @@ declare var HMR_SECURE: boolean;
           try {
             const url =
               type === 'password'
-                ? '/api/v1/auth/updatepassword'
-                : '/api/v1/auth/updatemyinfo';
+                ? 'http://localhost:7000/api/v1/auth/updatepassword'
+                : 'http://localhost:7000/api/v1/auth/updatemyinfo';
             const res = await _axiosDefault.default({
               method: 'PATCH',
               url,
@@ -15276,7 +15277,7 @@ declare var HMR_SECURE: boolean;
         const bookTour = async (tourId) => {
           //! 1) Get checkout session from API.
           const session = await _axiosDefault.default(
-            `/api/v1/bookings/checkout-session/${tourId}`
+            `http://localhost:7000/api/v1/bookings/checkout-session/${tourId}`
           );
           console.log(session);
           //! 2) Create checkout form + charage credit card.

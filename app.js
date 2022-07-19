@@ -1,7 +1,7 @@
 import pug from 'pug';
 import express from 'express';
 import morgan from 'morgan';
-import helmet from 'helmet';
+// import helmet from 'helmet';
 import compression from 'compression';
 import mongoSanitize from 'express-mongo-sanitize';
 import hpp from 'hpp';
@@ -16,7 +16,7 @@ app.set('view engine', 'pug');
 app.set('views', './views');
 
 //Global Middlewares
-app.use(helmet());
+// app.use(helmet());
 app.use('/api', limiter);
 app.use(compression());
 app.use(mongoSanitize());
