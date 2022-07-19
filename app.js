@@ -4,7 +4,6 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import compression from 'compression';
 import mongoSanitize from 'express-mongo-sanitize';
-import xss from 'xss-clean';
 import hpp from 'hpp';
 import cookieParser from 'cookie-parser';
 import Explosion from './utils/appError.js';
@@ -24,7 +23,6 @@ app.use(mongoSanitize());
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(xss());
 app.use(hpp({ whitelist }));
 app.use(express.static('./public'));
 
