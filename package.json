@@ -14,10 +14,6 @@
     "build": "parcel build ./public/js/index.js  --dist-dir ./public/js/bundled",
     "watch": "parcel  ./public/js/index.js --dist-dir ./public/js/bundled"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/siraamer/NaturesApp.git"
-  },
   "author": "Muhammad Amer",
   "license": "ISC",
   "dependencies": {
