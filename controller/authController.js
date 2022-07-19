@@ -17,20 +17,8 @@ const filterObj = (obj, ...allowedFields) => {
   });
   return newobj;
 };
-//! DiskStorage Engine
-// const multerStorage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, 'public/img/users');
-//   },
-//   filename: function (req, file, cb) {
-//     const extension = file.mimetype.split('/')[1];
-//     const filename = `user-${uuidv4()}-${Date.now()}.${extension}`;
-//     cb(null, filename);
-//   },
-// });
-//! Memory Storage
+
 const multerStorage = multer.memoryStorage();
-//! filter file type
 const filefilters = function (req, file, cb) {
   if (file.mimetype.startsWith('image')) {
     cb(null, true);
@@ -70,11 +58,9 @@ const signUp = catchAsync(async (req, res, next) => {
 const login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
-  //! 1) Check if email and password exist
   if (!email || !password) {
     return next(new AppError('Please provide email and password!', 400));
   }
-  //! 2) Check if user exists && password is correct
   const user = await User.findOne({ email }).select('+password');
 
   if (!user || !(await user.correctPassword(password, user.password))) {
@@ -95,7 +81,6 @@ const logout = (req, res) => {
 };
 
 const protect = catchAsync(async (req, res, next) => {
-  //! 1) Getting token and check if it's there
   let token;
   if (
     req.headers.authorization &&
@@ -110,16 +95,13 @@ const protect = catchAsync(async (req, res, next) => {
       new Explosion(`You are not logged in, please login to get access!`, 401)
     );
   }
-  //! 2) Verification token
   const decoded = await promisify(Jwt.verify)(token, process.env.JWT_SECRET);
-  //! 3) check if user still exist
   const existUser = await User.findById(decoded.id);
   if (!existUser) {
     return next(
       new Explosion(`The user belong to this token, is no longer exist!`, 401)
     );
   }
-  //! 4) check if user changed his password after token was issued
   if (existUser.passwordChangedAfter(decoded.iat)) {
     return next(
       new Explosion(`User recently changed password, please log in again!`, 401)
@@ -134,17 +116,14 @@ const protect = catchAsync(async (req, res, next) => {
 const isLoggedIn = async (req, res, next) => {
   try {
     if (req.cookies.jwt) {
-      //! 1) verify token
       const decoded = await promisify(Jwt.verify)(
         req.cookies.jwt,
         process.env.JWT_SECRET
       );
-      //! 2) check if user still exist
       const existUser = await User.findById(decoded.id);
       if (!existUser) {
         return next();
       }
-      //! 3) check if user changed his password after token was issued
       if (existUser.passwordChangedAfter(decoded.iat)) {
         return next();
       }
@@ -160,8 +139,6 @@ const isLoggedIn = async (req, res, next) => {
 
 const allowedTo = (...roles) =>
   catchAsync(async (req, res, next) => {
-    //! 1) Access roles
-    //! 2) Access register user (req.user)
     if (!roles.includes(req.user.role)) {
       return next(
         new Explosion(`You are not allowed to access this route!`, 403)
@@ -171,23 +148,19 @@ const allowedTo = (...roles) =>
   });
 
 const forgotPassword = catchAsync(async (req, res, next) => {
-  //! Get user based on POSTed email
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
     return next(new Explosion(`There is no user with thise mail!`, 404));
   }
-  //! generate a random reset token
   const resetToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false });
 
-  //! send email
   try {
     const tokenUrl = `${req.protocol}://${req.get(
       'host'
     )}/api/v1/users/resetpassword/${resetToken}`;
     await new Email(user, tokenUrl).sendPasswordReset();
   } catch (err) {
-    console.log(err);
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save();
@@ -202,7 +175,6 @@ const forgotPassword = catchAsync(async (req, res, next) => {
 });
 
 const resetPassword = catchAsync(async (req, res, next) => {
-  //! Get user based on the token
   const hashToken = crypto
     .createHash('sha256')
     .update(req.params.token)
@@ -211,7 +183,6 @@ const resetPassword = catchAsync(async (req, res, next) => {
     passwordResetToken: hashToken,
     passwordResetExpires: { $gt: Date.now() },
   });
-  //! If token has not expired, and there is user, set the new password
   if (!user) {
     return next(new Explosion(`Token is invalid or has expired!`, 400));
   }
@@ -225,20 +196,15 @@ const resetPassword = catchAsync(async (req, res, next) => {
 });
 
 const updateMyPassword = catchAsync(async (req, res, next) => {
-  //! 1) Get user from collection
   const user = await User.findById(req.user.id).select('+password');
 
-  //! 2) Check if POSTed current password is correct
   if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
     return next(new Explosion('Your current password is wrong.', 401));
   }
 
-  //! 3) If so, update password
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
-  // User.findByIdAndUpdate will NOT work as intended!
-  //! 4) Log user in, send JWT
   createSendToken(user, 200, res);
 });
 

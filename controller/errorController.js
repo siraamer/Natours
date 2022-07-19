@@ -64,7 +64,7 @@ const sendErrorProd = (err, req, res) => {
       msg: err.message,
     });
   }
-  console.log(err);
+
   return res.status(err.statusCode).render('error', {
     title: 'Something went very wrong!',
     msg: 'Please try again later!',

@@ -1,9 +1,7 @@
 import Tour from '../models/tourModel.js';
 import User from '../models/userModel.js';
 import Booking from '../models/bookingModel.js';
-
 import Explosion from '../utils/appError.js';
-
 import catchAsync from '../utils/catchAsync.js';
 
 const getOverview = catchAsync(async (req, res, next) => {
@@ -47,9 +45,7 @@ const getAccount = (req, res) => {
 };
 
 const getMyTours = catchAsync(async (req, res, next) => {
-  //! 1) Find all bookings
   const bookings = await Booking.find({ user: req.user.id });
-  //! 2) Find tours with returned ID's
   const tourIDs = bookings.map((el) => el.tour);
   const tours = await Tour.find({ _id: { $in: tourIDs } });
 
@@ -60,7 +56,6 @@ const getMyTours = catchAsync(async (req, res, next) => {
 });
 
 const updateUserData = catchAsync(async (req, res, next) => {
-  console.log('Updated', req.body);
   const user = await User.findByIdAndUpdate(
     req.user.id,
     {

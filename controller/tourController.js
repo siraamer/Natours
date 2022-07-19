@@ -6,10 +6,9 @@ import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import sharp from 'sharp';
 
-//* Memory Storage
+
 const multerStorage = multer.memoryStorage();
 
-//* filter file type
 
 const fileFilter = function (req, file, cb) {
   if (file.mimetype.startsWith('image')) {
@@ -19,6 +18,8 @@ const fileFilter = function (req, file, cb) {
   }
 };
 
+
+
 const upload = multer({ storage: multerStorage, fileFilter: fileFilter });
 const uploadTourImages = upload.fields([
   { name: 'imageCover', maxCount: 1 },
@@ -27,14 +28,12 @@ const uploadTourImages = upload.fields([
 
 const resizeTourImages = catchAsync(async (req, res, next) => {
   if (!req.files.imageCover || !req.files.images) return next();
-  //! image Cover of tour
   req.body.imageCover = `tour-${req.params.id}-${Date.now()}-cove.jpeg`;
   await sharp(req.files.imageCover[0].buffer)
     .resize(300, 300)
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
     .toFile(`public/img/tours/${req.body.imageCover}`);
-  //! images of tour
   req.body.images = [];
   await Promise.all(
     req.files.images.map(async (file, i) => {
