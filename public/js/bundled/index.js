@@ -11050,7 +11050,7 @@ declare var HMR_SECURE: boolean;
           try {
             const res = await _axiosDefault.default({
               method: 'POST',
-              url: 'http://localhost:7000/api/v1/auth/login',
+              url: '/api/v1/auth/login',
               data: {
                 email,
                 password,
@@ -11070,7 +11070,7 @@ declare var HMR_SECURE: boolean;
           try {
             const res = await _axiosDefault.default({
               method: 'GET',
-              url: 'http://localhost:7000/api/v1/auth/logout',
+              url: '/api/v1/auth/logout',
             });
             res.data.status = 'success';
             location.assign('/login');
@@ -15238,8 +15238,8 @@ declare var HMR_SECURE: boolean;
           try {
             const url =
               type === 'password'
-                ? 'http://localhost:7000/api/v1/auth/updatepassword'
-                : 'http://localhost:7000/api/v1/auth/updatemyinfo';
+                ? '/api/v1/auth/updatepassword'
+                : '/api/v1/auth/updatemyinfo';
             const res = await _axiosDefault.default({
               method: 'PATCH',
               url,
@@ -15277,7 +15277,7 @@ declare var HMR_SECURE: boolean;
         const bookTour = async (tourId) => {
           //! 1) Get checkout session from API.
           const session = await _axiosDefault.default(
-            `http://localhost:7000/api/v1/bookings/checkout-session/${tourId}`
+            `/api/v1/bookings/checkout-session/${tourId}`
           );
           console.log(session);
           //! 2) Create checkout form + charage credit card.
