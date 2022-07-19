@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Natours App.",
   "main": "app.js",
-  "targets": {
-    "main": false
-  },
   "type": "module",
   "scripts": {
     "start": "node server.js",
@@ -44,8 +41,7 @@
   "devDependencies": {
     "nodemon": "^2.0.18",
     "parcel": "^2.0.0-rc.0",
-    "parcel-bundler": "^1.12.3",
-   
+    "parcel-bundler": "^1.12.3"
   },
   "engines": {
     "node": "16.16.0"
