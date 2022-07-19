@@ -1,16 +1,59 @@
 {
-  "name": "nodeapi",
+  "name": "src",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Natours App.",
+  "main": "app.js",
+  "targets": {
+    "main": false
+  },
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "dev": "nodemon server.js",
+    "start": "NODE_ENV=production nodemon server.js",
+    "debug": "ndb server.js",
+    "build": "parcel build ./public/js/index.js  --dist-dir ./public/js/bundled",
+    "watch": "parcel  ./public/js/index.js --dist-dir ./public/js/bundled"
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siraamer/NaturesApp.git"
+  },
+  "author": "Muhammad Amer",
   "license": "ISC",
   "dependencies": {
-    "nodemon": "^2.0.18"
+    "@babel/polyfill": "^7.12.1",
+    "axios": "^0.27.2",
+    "bcryptjs": "^2.4.3",
+    "color": "^4.2.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^6.4.0",
+    "express-validator": "^6.14.2",
+    "helmet": "^5.1.0",
+    "hpp": "^0.2.3",
+    "html-to-text": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.4.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "ndb": "^0.2.4",
+    "nodemailer": "^6.7.7",
+    "pug": "^3.0.2",
+    "sharp": "^0.30.7",
+    "slugify": "^1.6.5",
+    "stripe": "^9.14.0",
+    "uuid": "^8.3.2",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.18",
+    "parcel": "^2.0.0-rc.0",
+    "parcel-bundler": "^1.12.3",
+    "xss-clean": "^0.1.1"
+  },
+  "engines": {
+    "node": "16"
   }
 }
