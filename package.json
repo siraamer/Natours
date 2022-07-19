@@ -45,9 +45,9 @@
     "nodemon": "^2.0.18",
     "parcel": "^2.0.0-rc.0",
     "parcel-bundler": "^1.12.3",
-    "xss-clean": "^0.1.1"
+   
   },
   "engines": {
-    "node": "16.0.0"
+    "node": "16.16.0"
   }
 }
