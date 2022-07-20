@@ -44,7 +44,7 @@ const a = (e) => {
         (
           await t(e)({
             method: 'POST',
-            url: 'http://localhost:7000/api/v1/auth/login',
+            url: '/api/v1/auth/login',
             data: { email: a, password: o },
           })
         ).data.status &&
@@ -78,8 +78,8 @@ const a = (e) => {
     try {
       const n =
           'password' === o
-            ? 'http://localhost:7000/api/v1/auth/updatepassword'
-            : 'http://localhost:7000/api/v1/auth/updatemyinfo',
+            ? '/api/v1/auth/updatepassword'
+            : '/api/v1/auth/updatemyinfo',
         r = await t(e)({ method: 'PATCH', url: n, data: a });
       console.log(a),
         'success' === r.data.status &&
@@ -94,7 +94,7 @@ const a = (e) => {
   l = async (a) => {
     //! 1) Get checkout session from API.
     const o = await t(e)(
-      `http://localhost:7000/api/v1/bookings/checkout-session/${a}`
+      `/api/v1/bookings/checkout-session/${a}`
     );
     console.log(o);
     //! 2) Create checkout form + charage credit card.
