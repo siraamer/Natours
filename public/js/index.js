@@ -1,7 +1,7 @@
 import '@babel/polyfill';
-import { displayMap } from './mapbox';
-import { login, logout, signup } from './login';
-import { updateSettings } from './updateSettings';
+import { displayMap } from '../js/mapbox.js';
+import { login, logout, signup } from './login.js';
+import { updateSettings } from './updateSettings.js';
 import { bookTour } from './stripe.js';
 
 // DOM ELEMENTS

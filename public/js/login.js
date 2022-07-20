@@ -1,12 +1,11 @@
-/* eslint-disable */
 import axios from 'axios';
-import { showAlert } from './alerts';
+import { showAlert } from './alerts.js';
 
 export const login = async (email, password) => {
   try {
     const res = await axios({
       method: 'POST',
-      url: '/api/v1/auth/login',
+      url: 'http://localhost:7000/api/v1/auth/login',
       data: {
         email,
         password,
@@ -28,7 +27,7 @@ export const logout = async () => {
   try {
     const res = await axios({
       method: 'GET',
-      url: '/api/v1/auth/logout',
+      url: 'http://localhost:7000/api/v1/auth/logout',
     });
     if ((res.data.status = 'success')) location.assign('/login');
   } catch (err) {
